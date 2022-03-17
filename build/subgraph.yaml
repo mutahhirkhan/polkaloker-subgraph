@@ -1,0 +1,33 @@
+specVersion: 0.0.2
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum
+    name: TokenFactory
+    network: rinkeby
+    source:
+      address: "0xC032e13DA868b44aFb9C3546ab4eed29E3B66399"
+      abi: TokenFactory
+      startBlock: 10070683
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Deploy
+        - RoleAdminChanged
+        - RoleGranted
+        - RoleRevoked
+      abis:
+        - name: TokenFactory
+          file: TokenFactory\abis\TokenFactory.json
+      eventHandlers:
+        - event: Deploy(indexed address,address)
+          handler: handleDeploy
+        - event: RoleAdminChanged(indexed bytes32,indexed bytes32,indexed bytes32)
+          handler: handleRoleAdminChanged
+        - event: RoleGranted(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleGranted
+        - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleRevoked
+      file: TokenFactory\TokenFactory.wasm
